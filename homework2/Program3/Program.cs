@@ -12,6 +12,7 @@ namespace Program3
         {
             Console.WriteLine("The prime numbers from 2 to 100 are:");
             int[] a = new int[99];
+
             for (int i = 0; i < 99; i++)
             {
                 a[i] = i + 2;
@@ -24,6 +25,7 @@ namespace Program3
                     if (j % i == 0) a[j - 2] = 0;
                 }
             }
+
             for (int i = 0; i < 99; i++)
             {
                 if (a[i] != 0) Console.Write(a[i] + " ");

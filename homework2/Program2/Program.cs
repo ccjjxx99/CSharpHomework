@@ -18,7 +18,6 @@ namespace Program2
             {
                 a[i] = int.Parse(sA[i]);
             }
-
             int min = a[0];
             int max = a[0];
             int sum = 0;
