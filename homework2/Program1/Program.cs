@@ -24,8 +24,6 @@ namespace Program1
                 {
                     if (i % j == 0) flag = false;
                 }
-
-            
                 if (flag)
                 {
                     Console.Write(i + " ");

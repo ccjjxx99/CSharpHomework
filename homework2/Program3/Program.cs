@@ -25,7 +25,6 @@ namespace Program3
                     if (j % i == 0) a[j - 2] = 0;
                 }
             }
-
             for (int i = 0; i < 99; i++)
             {
                 if (a[i] != 0) Console.Write(a[i] + " ");

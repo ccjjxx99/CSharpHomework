@@ -10,7 +10,7 @@ namespace Program2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Please input a set of numbers (Separate by spaces and end by enter):");
+            Console.WriteLine("Please input a set of numbers (separate by spaces and end by enter):");
             String s = Console.ReadLine();
             String[] sA = s.Split(' ');
             int[] a = new int[sA.Length];
