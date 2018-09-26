@@ -22,7 +22,7 @@ namespace Program2
             int max = a[0];
             int sum = 0;
             double avr;
-            for(int i = 0; i < sA.Length; i++)
+            for (int i = 0; i < sA.Length; i++)
             {
                 if (a[i] < min) min = a[i];
                 if (a[i] > max) max = a[i];
