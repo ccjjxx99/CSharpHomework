@@ -63,13 +63,12 @@ namespace Program2
 
             double x1 = x0 + leng * Math.Cos(th);
             double y1 = y0 + leng * Math.Sin(th);
-            double x2 = y0 + leng * Math.Cos(th) * k;
-            double y2 = y0 + leng * Math.Sin(th) * k;
-
+            double x2 = x0 + k * leng * Math.Cos(th);
+            double y2 = y0 + k * leng * Math.Sin(th);
             drawLine(x0, y0, x1, y1);
-
-            drawCayleyTree(n - 1, x1, y1, per1 * leng, th + th1);
-            drawCayleyTree(n - 1, x1, y1, per2 * leng, th - th2);
+            drawLine(x0, y0, x2, y2);
+            drawCayleyTree(n - 1, x1, y1, per1 * leng, th + th1);//右支
+            drawCayleyTree(n - 1, x2, y2, per2 * leng, th - th2);//左支
         }
 
         void drawLine(double x0, double y0, double x1, double y1)
@@ -87,6 +86,7 @@ namespace Program2
                 th2 = int.Parse(textBox2.Text) * Math.PI / 180;
                 per1 = double.Parse(textBox3.Text);
                 per2 = double.Parse(textBox4.Text);
+                k = double.Parse(textBox5.Text);
             }
             catch (Exception e)
             {
