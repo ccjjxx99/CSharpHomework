@@ -1,0 +1,79 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Program1
+{
+    public partial class Form2 : Form
+    {
+
+        public List<OrderDetail> GoodDetails = new List<OrderDetail>();
+
+        public Form2()
+        {
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            
+            AddDetail();
+        }
+
+        private void AddDetail()
+        {
+            try
+            {
+                uint[] id = { 1, 2, 3 };
+                string[] goods = { "Apple", "Mlik", "Egg" };
+                double[] value = { 1.01, 3.06, 2.05 };
+                uint detailId = uint.Parse(textBox1.Text);
+                uint gid = (uint)comboBox1.SelectedIndex;
+                uint quantity = uint.Parse(textBox2.Text);
+                Goods a = new Goods(id[gid], goods[gid], value[gid]);
+                OrderDetail orderDetail = new OrderDetail(detailId, a, quantity);
+                GoodDetails.Add(orderDetail);
+                detailBindingSource.DataSource = null;
+                detailBindingSource.DataSource = GoodDetails;
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            AddOrder();
+        }
+
+        private void AddOrder()
+        {
+            try
+            {
+                uint orderId = uint.Parse(textBox5.Text);
+                uint customerId = uint.Parse(textBox3.Text);
+                string customerName = textBox4.Text;
+                Customer a = new Customer(customerId,customerName);
+                Order order = new Order(orderId, a)
+                {
+                    details = GoodDetails
+                };
+                Form1.os.AddOrder(order);
+                Form1.orderBindingSource.DataSource = null;
+                Form1.orderBindingSource.DataSource = Form1.os.orderDict.Values.ToList();
+                Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+    }
+}
