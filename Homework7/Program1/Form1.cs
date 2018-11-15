@@ -7,6 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Xsl;
+using System.Xml;
+using System.Xml.Serialization;
+using System.IO;
+using System.Xml.XPath;
 
 namespace Program1
 {
@@ -19,8 +24,8 @@ namespace Program1
         public Form1()
         {
             InitializeComponent();
-            Customer customer1 = new Customer(1, "Customer1");
-            Customer customer2 = new Customer(2, "Customer2");
+            Customer customer1 = new Customer(1, "Customer1","15000000001");
+            Customer customer2 = new Customer(2, "Customer2","15000000002");
 
             Goods Apple = new Goods(1, "Apple", 1.01);
             Goods Milk = new Goods(2, "Milk", 3.06);
@@ -30,9 +35,9 @@ namespace Program1
             OrderDetail orderDetails2 = new OrderDetail(2, Egg, 2);
             OrderDetail orderDetails3 = new OrderDetail(3, Milk, 1);
 
-            Order order1 = new Order(1, customer1);
-            Order order2 = new Order(2, customer2);
-            Order order3 = new Order(3, customer2);
+            Order order1 = new Order("20181111001", customer1);
+            Order order2 = new Order("20181111002", customer2);
+            Order order3 = new Order("20181111003", customer2);
             order1.AddDetails(orderDetails1);
             order1.AddDetails(orderDetails2);
             order1.AddDetails(orderDetails3);
@@ -77,7 +82,7 @@ namespace Program1
                     MessageBox.Show("是否删除选中行的数据？", "提示",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Information))
                 {
-                    os.orderDict.Remove(uint.Parse(dataGridView1.CurrentRow.Cells[0].Value.ToString()));
+                    os.orderDict.Remove(dataGridView1.CurrentRow.Cells[0].Value.ToString());
                     dataGridView1.Rows.RemoveAt(iCount);
                 }
             }
@@ -91,9 +96,7 @@ namespace Program1
         {
             try
             {
-                MessageBox.Show(os.orderDict[uint.
-                    Parse(dataGridView1.CurrentRow.Cells[0].Value.ToString())]
-                    .ToString());
+                MessageBox.Show(os.orderDict[dataGridView1.CurrentRow.Cells[0].Value.ToString()].ToString());
             }
             catch (Exception e)
             {
@@ -105,7 +108,7 @@ namespace Program1
         {
             try
             {
-                new Form3(uint.Parse(dataGridView1.CurrentRow.Cells[0].Value.ToString())).ShowDialog();
+                new Form3(dataGridView1.CurrentRow.Cells[0].Value.ToString()).ShowDialog();
             }
             catch (Exception e)
             {
@@ -138,11 +141,43 @@ namespace Program1
         {
             try
             {
-                orderBindingSource.DataSource = os.GetById(uint.Parse(textBox1.Text));
+                orderBindingSource.DataSource = os.GetById(textBox1.Text);
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            os.Export(os.GetById(dataGridView1.CurrentRow.Cells[0].Value.ToString()), 
+                "out" + dataGridView1.CurrentRow.Cells[0].Value.ToString() + ".xml");
+            XmlTextWriter writer = null;
+            try
+            {
+                //声明XslTransform类实例
+                XmlDocument doc = new XmlDocument();
+                doc.Load("out" + dataGridView1.CurrentRow.Cells[0].Value.ToString() + ".xml");
+
+                XPathNavigator nav = doc.CreateNavigator();
+                nav.MoveToRoot();
+
+                XslCompiledTransform xt = new XslCompiledTransform();
+                xt.Load("../../trans.xslt");
+
+                FileStream outFileStream = File.OpenWrite("out" + dataGridView1.CurrentRow.Cells[0].Value.ToString() + ".html");
+                writer = new XmlTextWriter(outFileStream, Encoding.UTF8);
+                xt.Transform(nav, null, writer);
+                MessageBox.Show("Order"+dataGridView1.CurrentRow.Cells[0].Value.ToString()+"创建html文件成功！");
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"创建html失败：{ex.Message}");
+            }
+            finally
+            {
+                writer.Close();
             }
         }
     }

@@ -13,15 +13,13 @@ namespace Program1
     public class Order
     {
         public Order() { }
-
-        public List<OrderDetail> details = new List<OrderDetail>();
-
+        
         /// <summary>
         /// Order constructor
         /// </summary>
         /// <param name="orderId">order id</param>
         /// <param name="customer">who orders goods</param>
-        public Order(uint orderId, Customer customer)
+        public Order(string orderId, Customer customer)
         {
             Id = orderId;
             Customer = customer;
@@ -30,18 +28,17 @@ namespace Program1
         /// <summary>
         /// order id
         /// </summary>
-        public uint Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// the man who orders goods
         /// </summary>
         public Customer Customer { get; set; }
 
-
-        public List<OrderDetail> Details
-        {
-            get => details;
-        }
+        /// <summary>
+        /// order details
+        /// </summary>
+        public List<OrderDetail> details = new List<OrderDetail>();
 
         /// <summary>
         /// add new orderDetail to order
@@ -49,7 +46,7 @@ namespace Program1
         /// <param name="orderDetail">the new orderDetail which will be added</param>
         public void AddDetails(OrderDetail orderDetail)
         {
-            if (Details.Contains(orderDetail))
+            if (details.Contains(orderDetail))
             {
                 throw new Exception($"orderDetails-{orderDetail.Id} is already existed!");
             }
@@ -81,7 +78,7 @@ namespace Program1
         public double Money()
         {
             double sum = 0;
-            foreach (OrderDetail orderDetail in Details)
+            foreach (OrderDetail orderDetail in details)
             {
                 sum += (orderDetail.Goods.Price * orderDetail.Quantity);
             }

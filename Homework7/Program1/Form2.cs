@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace Program1
 {
@@ -57,10 +58,21 @@ namespace Program1
         {
             try
             {
-                uint orderId = uint.Parse(textBox5.Text);
+                string orderId = textBox5.Text;
+                string pattern = "^[0-9]{4}((0([1-9]))|(1(0|1|2)))((0[1-9]|([1-2][0-9])|3[0-1]))[0-9]{3}$";
+                if (!Regex.IsMatch(orderId, pattern))
+                {
+                    throw new OrderIdException("订单号格式错误");
+                }
                 uint customerId = uint.Parse(textBox3.Text);
                 string customerName = textBox4.Text;
-                Customer a = new Customer(customerId,customerName);
+                string customerPhone = textBox6.Text;
+                string pattern2 = "1[0-9]{10}$";
+                if (!Regex.IsMatch(customerPhone, pattern2))
+                {
+                    throw new OrderIdException("手机号格式错误");
+                }
+                Customer a = new Customer(customerId,customerName,customerPhone);
                 Order order = new Order(orderId, a)
                 {
                     details = GoodDetails

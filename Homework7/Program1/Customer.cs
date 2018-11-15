@@ -21,6 +21,7 @@ namespace Program1
         /// customer's name
         /// </summary>
         public string Name { get; set; }
+        public string Phone { get; set; }
 
 
         /// <summary>
@@ -28,10 +29,11 @@ namespace Program1
         /// </summary>
         /// <param name="id">customer id</param>
         /// <param name="name">customer name </param>
-        public Customer(uint id, string name)
+        public Customer(uint id, string name, string phone)
         {
-            this.Id = id;
-            this.Name = name;
+            Id = id;
+            Name = name;
+            Phone = phone;
         }
 
         public Customer() { }
@@ -41,7 +43,7 @@ namespace Program1
         /// <returns>string:message of the Customer object</returns>
         public override string ToString()
         {
-            return $"customerId:{Id}, CustomerName:{Name}";
+            return $"customerId:{Id}, Name:{Name}, Phone:{Phone}";
         }
 
 

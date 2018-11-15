@@ -17,13 +17,13 @@ namespace Program1
     public class OrderService
     {
 
-        public Dictionary<uint, Order> orderDict;
+        public Dictionary<string, Order> orderDict;
         /// <summary>
         /// OrderService constructor
         /// </summary>
         public OrderService()
         {
-            orderDict = new Dictionary<uint, Order>();
+            orderDict = new Dictionary<string, Order>();
         }
 
 
@@ -42,7 +42,7 @@ namespace Program1
         /// cancel order
         /// </summary>
         /// <param name="orderId">id of the order which will be canceled</param> 
-        public void RemoveOrder(uint orderId)
+        public void RemoveOrder(string orderId)
         {
             orderDict.Remove(orderId);
         }
@@ -61,7 +61,7 @@ namespace Program1
         /// </summary>
         /// <param name="orderId">id of the order to find</param>
         /// <returns>List<Order></returns> 
-        public Order GetById(uint orderId)
+        public Order GetById(string orderId)
         {
             return orderDict[orderId];
         }
@@ -74,7 +74,7 @@ namespace Program1
         public List<Order> QueryByGoodsName(string goodsName)
         {
             var que = from o in orderDict.Values
-                      from d in o.Details
+                      from d in o.details
                       where d.Goods.Name == goodsName
                       select o;
             return que.ToList();
@@ -97,7 +97,7 @@ namespace Program1
         /// </summary>
         /// <param name="orderId"> id of the order whoes customer will be update</param>
         /// <param name="newCustomer">the new customer of the order which will be update</param> 
-        public void UpdateCustomer(uint orderId, Customer newCustomer)
+        public void UpdateCustomer(string orderId, Customer newCustomer)
         {
             if (orderDict.ContainsKey(orderId))
             {
@@ -123,7 +123,7 @@ namespace Program1
         /// <param name="order">要序列化的对象</param>
         /// <param name="filePath">xml文档路径（包含文件名）</param>
         /// <returns>成功：true，失败：false</returns>
-        public bool Export(Order order, String filePath)
+        public bool Export(Order order, string filePath)
         {
             XmlWriter writer = null;    //声明一个xml编写器
             XmlWriterSettings writerSetting = new XmlWriterSettings //声明编写器设置
