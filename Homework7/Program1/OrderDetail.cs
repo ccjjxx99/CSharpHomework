@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Program1
 {
-    /// <summary>
-    /// OrderDetail class : a entry of an order object
-    /// to record the goods and its quantity
-    /// </summary>
+    
     public class OrderDetail
     {
-        /// <summary>
-        /// OrderDetail constructor
-        /// </summary>
-        /// <param name="id">orderDetail's id</param>
-        /// <param name="goods">orderDetail's goods</param>
-        /// <param name="quantity">goods quantity</param>
-        public OrderDetail(uint id, Goods goods, uint quantity)
+        [Key]
+        public string Id { get; set; }
+        public uint Quantity { get; set; }
+        public Goods Goods { get; set; }
+        
+        public OrderDetail(string id, Goods goods, uint quantity)
         {
             Id = id;
             Goods = goods;
@@ -26,20 +23,7 @@ namespace Program1
         }
 
         public OrderDetail() { }
-        /// <summary>
-        /// OrderDetail's id
-        /// </summary>
-        public uint Id { get; set; }
-
-        /// <summary>
-        /// orderDetail's goods
-        /// </summary>
-        public Goods Goods { get; set; }
-
-        /// <summary>
-        /// goods quantity
-        /// </summary>
-        public uint Quantity { get; set; }
+        
 
         public override bool Equals(object obj)
         {

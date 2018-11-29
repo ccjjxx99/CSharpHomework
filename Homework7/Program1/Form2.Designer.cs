@@ -33,12 +33,10 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
@@ -61,7 +59,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(62, 36);
+            this.label1.Location = new System.Drawing.Point(65, 77);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(82, 15);
             this.label1.TabIndex = 0;
@@ -95,15 +93,6 @@
             this.label2.Size = new System.Drawing.Size(82, 15);
             this.label2.TabIndex = 3;
             this.label2.Text = "顾客信息：";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(65, 77);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(52, 15);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "编号：";
             // 
             // label4
             // 
@@ -140,13 +129,6 @@
             this.label7.Size = new System.Drawing.Size(52, 15);
             this.label7.TabIndex = 8;
             this.label7.Text = "姓名：";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(137, 70);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 25);
-            this.textBox1.TabIndex = 9;
             // 
             // textBox2
             // 
@@ -275,12 +257,10 @@
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -301,12 +281,10 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TextBox textBox4;

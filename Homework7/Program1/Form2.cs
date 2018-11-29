@@ -13,17 +13,18 @@ namespace Program1
 {
     public partial class Form2 : Form
     {
+        public static uint detailId = 1;
 
         public List<OrderDetail> GoodDetails = new List<OrderDetail>();
 
         public Form2()
         {
             InitializeComponent();
+            detailId = 1;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
             AddDetail();
         }
 
@@ -34,14 +35,18 @@ namespace Program1
                 uint[] id = { 1, 2, 3 };
                 string[] goods = { "Apple", "Mlik", "Egg" };
                 double[] value = { 1.01, 3.06, 2.05 };
-                uint detailId = uint.Parse(textBox1.Text);
                 uint gid = (uint)comboBox1.SelectedIndex;
                 uint quantity = uint.Parse(textBox2.Text);
                 Goods a = new Goods(id[gid], goods[gid], value[gid]);
-                OrderDetail orderDetail = new OrderDetail(detailId, a, quantity);
+                OrderDetail orderDetail = new OrderDetail(detailId.ToString(), a, quantity);
+                if (GoodDetails.Contains(orderDetail))
+                {
+                    throw new Exception($"orderDetails-{orderDetail.Id} is already existed!");
+                }
                 GoodDetails.Add(orderDetail);
                 detailBindingSource.DataSource = null;
                 detailBindingSource.DataSource = GoodDetails;
+                detailId++;
             }
             catch(Exception e)
             {
@@ -79,7 +84,7 @@ namespace Program1
                 };
                 Form1.os.AddOrder(order);
                 Form1.orderBindingSource.DataSource = null;
-                Form1.orderBindingSource.DataSource = Form1.os.orderDict.Values.ToList();
+                Form1.orderBindingSource.DataSource = Form1.os.QueryAllOrders();
                 Close();
             }
             catch (Exception e)

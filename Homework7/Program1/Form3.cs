@@ -32,10 +32,12 @@ namespace Program1
             {
                 throw new OrderIdException("手机号格式错误");
             }
-            Customer customer = new Customer(CustomerId, CustomerName,CustomerPhone);
-            Form1.os.UpdateCustomer(iCount, customer);
+            Customer customer = new Customer(CustomerId, CustomerName, CustomerPhone);
+            Order order = new Order(iCount, customer);
+            order.details = Form1.os.GetById(iCount).details;
+            Form1.os.UpdateCustomer(order);
             Form1.orderBindingSource.DataSource = null;
-            Form1.orderBindingSource.DataSource = Form1.os.orderDict.Values.ToList();
+            Form1.orderBindingSource.DataSource = Form1.os.QueryAllOrders();
             Close();
         }
     }

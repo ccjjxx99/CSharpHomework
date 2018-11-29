@@ -24,33 +24,9 @@ namespace Program1
         public Form1()
         {
             InitializeComponent();
-            Customer customer1 = new Customer(1, "Customer1","15000000001");
-            Customer customer2 = new Customer(2, "Customer2","15000000002");
-
-            Goods Apple = new Goods(1, "Apple", 1.01);
-            Goods Milk = new Goods(2, "Milk", 3.06);
-            Goods Egg = new Goods(3, "Egg", 2.05);
-
-            OrderDetail orderDetails1 = new OrderDetail(1, Apple, 8);
-            OrderDetail orderDetails2 = new OrderDetail(2, Egg, 2);
-            OrderDetail orderDetails3 = new OrderDetail(3, Milk, 1);
-
-            Order order1 = new Order("20181111001", customer1);
-            Order order2 = new Order("20181111002", customer2);
-            Order order3 = new Order("20181111003", customer2);
-            order1.AddDetails(orderDetails1);
-            order1.AddDetails(orderDetails2);
-            order1.AddDetails(orderDetails3);
-            //order1.AddOrderDetails(orderDetails3);
-            order2.AddDetails(orderDetails2);
-            order2.AddDetails(orderDetails3);
-            order3.AddDetails(orderDetails3);
             
-            os.AddOrder(order1);
-            os.AddOrder(order2);
-            os.AddOrder(order3);
             orderBindingSource.DataSource = null;
-            orderBindingSource.DataSource = os.orderDict.Values.ToList();
+            orderBindingSource.DataSource = os.QueryAllOrders();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -82,7 +58,7 @@ namespace Program1
                     MessageBox.Show("是否删除选中行的数据？", "提示",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Information))
                 {
-                    os.orderDict.Remove(dataGridView1.CurrentRow.Cells[0].Value.ToString());
+                    os.RemoveOrder(dataGridView1.CurrentRow.Cells[0].Value.ToString());
                     dataGridView1.Rows.RemoveAt(iCount);
                 }
             }
@@ -96,7 +72,7 @@ namespace Program1
         {
             try
             {
-                MessageBox.Show(os.orderDict[dataGridView1.CurrentRow.Cells[0].Value.ToString()].ToString());
+                MessageBox.Show(os.GetById(dataGridView1.CurrentRow.Cells[0].Value.ToString()).ToString());
             }
             catch (Exception e)
             {
@@ -119,7 +95,7 @@ namespace Program1
         private void button6_Click(object sender, EventArgs e)
         {
             orderBindingSource.DataSource = null;
-            orderBindingSource.DataSource = os.orderDict.Values.ToList();
+            orderBindingSource.DataSource = os.QueryAllOrders();
         }
 
         private void button5_Click_1(object sender, EventArgs e)

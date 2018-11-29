@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,38 +13,25 @@ namespace Program1
     /// </summary>
     public class Order
     {
-        public Order() { }
+
+        [Key]
+        public string Id { get; set; }
+        public Customer Customer { get; set; }
+        public List<OrderDetail> details { get; set; }
         
-        /// <summary>
-        /// Order constructor
-        /// </summary>
-        /// <param name="orderId">order id</param>
-        /// <param name="customer">who orders goods</param>
+        public Order()
+        {
+            details = new List<OrderDetail>();
+        }
+        
         public Order(string orderId, Customer customer)
         {
+            details = new List<OrderDetail>();
             Id = orderId;
             Customer = customer;
         }
 
-        /// <summary>
-        /// order id
-        /// </summary>
-        public string Id { get; set; }
-
-        /// <summary>
-        /// the man who orders goods
-        /// </summary>
-        public Customer Customer { get; set; }
-
-        /// <summary>
-        /// order details
-        /// </summary>
-        public List<OrderDetail> details = new List<OrderDetail>();
-
-        /// <summary>
-        /// add new orderDetail to order
-        /// </summary>
-        /// <param name="orderDetail">the new orderDetail which will be added</param>
+        
         public void AddDetails(OrderDetail orderDetail)
         {
             if (details.Contains(orderDetail))
@@ -52,20 +40,12 @@ namespace Program1
             }
             details.Add(orderDetail);
         }
-
-        /// <summary>
-        /// remove orderDetail by orderDetailId from order
-        /// </summary>
-        /// <param name="orderDetailId">id of the orderDetail which will be removed</param>
-        public void RemoveDetails(uint orderDetailId)
+        
+        public void RemoveDetails(string orderDetailId)
         {
             details.RemoveAll(d => d.Id == orderDetailId);
         }
-
-        /// <summary>
-        /// override ToString
-        /// </summary>
-        /// <returns>string:message of the Order object</returns>
+        
         public override string ToString()
         {
             string result = "================================================================================\n";

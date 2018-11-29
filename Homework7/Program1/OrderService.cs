@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,14 +18,7 @@ namespace Program1
     public class OrderService
     {
 
-        public Dictionary<string, Order> orderDict;
-        /// <summary>
-        /// OrderService constructor
-        /// </summary>
-        public OrderService()
-        {
-            orderDict = new Dictionary<string, Order>();
-        }
+        public OrderService() { }
 
 
         /// <summary>
@@ -33,9 +27,11 @@ namespace Program1
         /// <param name="order">the order will be added</param>
         public void AddOrder(Order order)
         {
-            if (orderDict.ContainsKey(order.Id))
-                throw new Exception($"order-{order.Id} is already existed!");
-            orderDict[order.Id] = order;
+            using (var db = new OrderDB())
+            {
+                db.Order.Add(order);
+                db.SaveChanges();
+            }
         }
 
         /// <summary>
@@ -44,7 +40,13 @@ namespace Program1
         /// <param name="orderId">id of the order which will be canceled</param> 
         public void RemoveOrder(string orderId)
         {
-            orderDict.Remove(orderId);
+            using (var db = new OrderDB())
+            {
+                var order = db.Order.Include("details").SingleOrDefault(o => o.Id == orderId);
+                db.OrderDetail.RemoveRange(order.details);
+                db.Order.Remove(order);
+                db.SaveChanges();
+            }
         }
 
         /// <summary>
@@ -53,7 +55,10 @@ namespace Program1
         /// <returns>List<Order>:all the orders</returns> 
         public List<Order> QueryAllOrders()
         {
-            return orderDict.Values.ToList();
+            using (var db = new OrderDB())
+            {
+                return db.Order.Include(o => o.details).ToList<Order>();
+            }
         }
 
         /// <summary>
@@ -63,7 +68,11 @@ namespace Program1
         /// <returns>List<Order></returns> 
         public Order GetById(string orderId)
         {
-            return orderDict[orderId];
+            using (var db = new OrderDB())
+            {
+                return db.Order.Include("details").
+                  SingleOrDefault(o => o.Id == orderId);
+            }
         }
 
         /// <summary>
@@ -73,11 +82,11 @@ namespace Program1
         /// <returns></returns> 
         public List<Order> QueryByGoodsName(string goodsName)
         {
-            var que = from o in orderDict.Values
-                      from d in o.details
-                      where d.Goods.Name == goodsName
-                      select o;
-            return que.ToList();
+            using (var db = new OrderDB())
+            {
+                return db.Order.Include("details")
+                    .Where(od => od.details.Where(d => d.Goods.Name == goodsName).Count() > 0).ToList<Order>();
+            }
         }
 
         /// <summary>
@@ -87,9 +96,11 @@ namespace Program1
         /// <returns></returns> 
         public List<Order> QueryByCustomerName(string customerName)
         {
-            var query = orderDict.Values
-                .Where(order => order.Customer.Name == customerName);
-            return query.ToList();
+            using (var db = new OrderDB())
+            {
+                return db.Order.Include("details")
+                    .Where(o => o.Customer.Name == customerName).ToList<Order>();
+            }
         }
 
         /// <summary>
@@ -97,23 +108,25 @@ namespace Program1
         /// </summary>
         /// <param name="orderId"> id of the order whoes customer will be update</param>
         /// <param name="newCustomer">the new customer of the order which will be update</param> 
-        public void UpdateCustomer(string orderId, Customer newCustomer)
+        public void UpdateCustomer(Order order)
         {
-            if (orderDict.ContainsKey(orderId))
+            using (var db = new OrderDB())
             {
-                orderDict[orderId].Customer = newCustomer;
-            }
-            else
-            {
-                throw new Exception($"order-{orderId} is not existed!");
+                db.Order.Attach(order);
+                db.Entry(order).State = EntityState.Modified;
+                order.details.ForEach(
+                    detail => db.Entry(detail).State = EntityState.Modified);
+                db.SaveChanges();
             }
         }
 
         public List<Order> GetBigger()
         {
-            var query = orderDict.Values
-                .Where(order => order.Money() > 70);
-            return query.ToList();
+            using (var db = new OrderDB())
+            {
+                return db.Order.Include("details")
+                    .Where(o => o.Money() >= 70).ToList<Order>();
+            }
         }
 
 
