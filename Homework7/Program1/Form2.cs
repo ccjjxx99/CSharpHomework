@@ -20,7 +20,6 @@ namespace Program1
         public Form2()
         {
             InitializeComponent();
-            detailId = 1;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -38,7 +37,11 @@ namespace Program1
                 uint gid = (uint)comboBox1.SelectedIndex;
                 uint quantity = uint.Parse(textBox2.Text);
                 Goods a = new Goods(id[gid], goods[gid], value[gid]);
-                OrderDetail orderDetail = new OrderDetail(detailId.ToString(), a, quantity);
+                OrderDetail orderDetail = new OrderDetail
+                {
+                    Goods = a,
+                    Quantity = quantity
+                };
                 if (GoodDetails.Contains(orderDetail))
                 {
                     throw new Exception($"orderDetails-{orderDetail.Id} is already existed!");
@@ -61,7 +64,7 @@ namespace Program1
 
         private void AddOrder()
         {
-            try
+            //try
             {
                 string orderId = textBox5.Text;
                 string pattern = "^[0-9]{4}((0([1-9]))|(1(0|1|2)))((0[1-9]|([1-2][0-9])|3[0-1]))[0-9]{3}$";
@@ -69,7 +72,7 @@ namespace Program1
                 {
                     throw new OrderIdException("订单号格式错误");
                 }
-                uint customerId = uint.Parse(textBox3.Text);
+                //uint customerId = uint.Parse(textBox3.Text);
                 string customerName = textBox4.Text;
                 string customerPhone = textBox6.Text;
                 string pattern2 = "1[0-9]{10}$";
@@ -77,19 +80,18 @@ namespace Program1
                 {
                     throw new OrderIdException("手机号格式错误");
                 }
-                Customer a = new Customer(customerId,customerName,customerPhone);
+                Customer a = new Customer(customerName,customerPhone);
                 Order order = new Order(orderId, a)
                 {
                     details = GoodDetails
                 };
                 Form1.os.AddOrder(order);
-                Form1.orderBindingSource.DataSource = null;
                 Form1.orderBindingSource.DataSource = Form1.os.QueryAllOrders();
                 Close();
             }
-            catch (Exception e)
+            //catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                //MessageBox.Show(e.Message);
             }
         }
     }

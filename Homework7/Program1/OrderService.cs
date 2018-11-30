@@ -57,7 +57,7 @@ namespace Program1
         {
             using (var db = new OrderDB())
             {
-                return db.Order.Include(o => o.details).ToList<Order>();
+                return db.Order.Include("details").ToList<Order>();
             }
         }
 

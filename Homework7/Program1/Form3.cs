@@ -24,7 +24,7 @@ namespace Program1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            uint CustomerId = uint.Parse(textBox1.Text);
+            //uint CustomerId = uint.Parse(textBox1.Text);
             string CustomerName = textBox2.Text;
             string CustomerPhone = textBox3.Text;
             string pattern2 = "1[0-9]{10}$";
@@ -32,7 +32,7 @@ namespace Program1
             {
                 throw new OrderIdException("手机号格式错误");
             }
-            Customer customer = new Customer(CustomerId, CustomerName, CustomerPhone);
+            Customer customer = new Customer(CustomerName, CustomerPhone);
             Order order = new Order(iCount, customer);
             order.details = Form1.os.GetById(iCount).details;
             Form1.os.UpdateCustomer(order);

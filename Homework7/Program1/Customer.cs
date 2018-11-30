@@ -15,7 +15,7 @@ namespace Program1
         /// <summary>
         /// customer's identifier
         /// </summary>
-        public uint Id { get; set; }
+        //public uint Id { get; set; }
 
         /// <summary>
         /// customer's name
@@ -29,9 +29,9 @@ namespace Program1
         /// </summary>
         /// <param name="id">customer id</param>
         /// <param name="name">customer name </param>
-        public Customer(uint id, string name, string phone)
+        public Customer(string name, string phone)
         {
-            Id = id;
+            //Id = id;
             Name = name;
             Phone = phone;
         }
@@ -43,7 +43,8 @@ namespace Program1
         /// <returns>string:message of the Customer object</returns>
         public override string ToString()
         {
-            return $"customerId:{Id}, Name:{Name}, Phone:{Phone}";
+            //return $"customerId:{Id}, Name:{Name}, Phone:{Phone}";
+            return $"customerName:{Name}, Phone:{Phone}";
         }
 
 

@@ -25,7 +25,6 @@ namespace Program1
         {
             InitializeComponent();
             
-            orderBindingSource.DataSource = null;
             orderBindingSource.DataSource = os.QueryAllOrders();
         }
 
@@ -94,7 +93,6 @@ namespace Program1
 
         private void button6_Click(object sender, EventArgs e)
         {
-            orderBindingSource.DataSource = null;
             orderBindingSource.DataSource = os.QueryAllOrders();
         }
 

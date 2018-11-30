@@ -15,14 +15,16 @@ namespace Program1
         public uint Quantity { get; set; }
         public Goods Goods { get; set; }
         
-        public OrderDetail(string id, Goods goods, uint quantity)
+        public OrderDetail(Goods goods, uint quantity)
         {
-            Id = id;
             Goods = goods;
             Quantity = quantity;
         }
 
-        public OrderDetail() { }
+        public OrderDetail()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
         
 
         public override bool Equals(object obj)
